@@ -45,7 +45,6 @@ fn delete_post() {
 }
 
 fn complete_post() {
-
     let connection = Database::establish_connection();
 
     println!("What task to set finished/unfinished?");

@@ -38,13 +38,15 @@ impl Database {
     
     pub fn delete_post(conn: &PgConnection, post_id: i32) {
         use schema::todo as database;
-    
+
+        // TODO: Should probably give some feedback if post_id doesn't exist.    
         diesel::delete(database::table.find(post_id))
             .execute(conn)
             .unwrap();
     
         println!("Deleted.")
     }
+    
     pub fn complete_post(conn: &PgConnection, post_id: i32) {
             use schema::todo as database;
             use schema::todo::dsl::*;
