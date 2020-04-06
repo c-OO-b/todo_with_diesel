@@ -36,15 +36,19 @@ impl Database {
             .expect("Error saving new post")
     }
     
-    pub fn delete_post(conn: &PgConnection, post_id: i32) {
+    pub fn delete_post(conn: &PgConnection, post_id: i32){
         use schema::todo as database;
 
         // TODO: Should probably give some feedback if post_id doesn't exist.    
-        diesel::delete(database::table.find(post_id))
-            .execute(conn)
-            .unwrap();
-    
-        println!("Deleted.")
+        let result = diesel::delete(database::table.find(post_id))
+            .get_result::<Database>(conn);
+        
+        if result.is_err() {
+            println!("ID does not exist.")
+        } else {
+            println!("Deleted.")
+        }
+
     }
     
     pub fn complete_post(conn: &PgConnection, post_id: i32) {
